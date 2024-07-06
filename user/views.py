@@ -3,25 +3,20 @@ import json
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
-from django.views.decorators.csrf import csrf_exempt
-
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from .models import User
 
 
 
+@api_view(['POST'])
+def register(request: Request) -> Response:
 
-@csrf_exempt
-def register(request: HttpRequest) -> HttpResponse:
-    if request.method != 'POST':
-        return HttpResponse(status=405)
+    User.objects.create_user(
+        username=request.data.get("username"),
+        password=request.data.get("password")
+    )
 
-    body = json.loads(request.body)
-
-    username = body.get("username")
-    password = body.get("password")
-
-    print(username)
-    print(password)
-
-    return HttpResponse(status=200, content)
+    return Response(status=200)
