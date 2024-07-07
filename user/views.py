@@ -8,15 +8,17 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from .models import User
+from .serializers import  UserSerializer
 
 
 
 @api_view(['POST'])
 def register(request: Request) -> Response:
-
-    User.objects.create_user(
-        username=request.data.get("username"),
-        password=request.data.get("password")
+    serializer = UserSerializer(
+        data=request.data,
+        context={'request': request}
     )
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
 
-    return Response(status=200)
+    return Response(serializer.data, status=200)
