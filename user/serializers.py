@@ -11,6 +11,4 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        request = self.context['request']
-        last_name = request._request.path
         return User.objects.create_user(**validated_data)

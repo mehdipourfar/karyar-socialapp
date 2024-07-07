@@ -16,7 +16,6 @@ from .serializers import  UserSerializer
 def register(request: Request) -> Response:
     serializer = UserSerializer(
         data=request.data,
-        context={'request': request}
     )
     serializer.is_valid(raise_exception=True)
     serializer.save()
