@@ -1,0 +1,39 @@
+https://github.com/python-jsonschema/jsonschema
+https://django-jsonform.readthedocs.io/en/latest/index.html
+https://github.com/catallog/django-jsonschema-form (probably deprecated)
+
+
+* Category tree
+
+Category
+- id
+- slug
+- title
+- parent
+- product attributes schema (json field) (json schema)
+- variant attributes schema (json field) (json schema)
+
+root categories, intermediate categories, leaf categories (All in one mode)
+crawl digikala's categories
+
+
+Write a usable django admin for it.
+
+
+* Product Catalogue
+
+Product:
+- id
+- title
+- description
+- image
+- category_id (we can only set category_id to leaf categories)
+- attributes (json field)
+
+
+Product Variant: (different of variants of a product. for example a shoe can have different colors)
+- id
+- product_id
+- price
+- items_count
+- attributes (json field)
