@@ -2,6 +2,7 @@ import json
 
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -44,6 +45,12 @@ def login(request: Request) -> Response:
         return Response({"error": "username or password is incorrect"}, status=400)
 
 
-    token, _ = Token.objects.get_or_create(user=user, defaults={'key': Token.generate_key()})
+    token, _ = Token.objects.get_or_create(
+        user=user,
+        defaults={'key': Token.generate_key()},
+    )
+
+    user.last_login = timezone.now()
+    user.save()
 
     return Response({"token": token.key})
