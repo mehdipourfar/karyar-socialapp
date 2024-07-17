@@ -9,6 +9,5 @@ class Post(models.Model):
                              on_delete=models.CASCADE,
                              related_name="posts")
     text = models.TextField(default="")
-    a = models.IntegerField()
     image = models.ImageField(upload_to="images", default="", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
