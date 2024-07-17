@@ -21,14 +21,23 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from rest_framework.routers import DefaultRouter
 
 from user import views as user_views
+import post.views as post_views
+
+
+# router = DefaultRouter()
+
+# router.register(r"posts", PostViewSet, basename="posts")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("user/register/", user_views.register),
     path("user/login/", user_views.login),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+    # path('api/', include(router.urls)),
+    path('api/posts/', post_views.list_posts),
 ]
 
 if settings.DEBUG:
