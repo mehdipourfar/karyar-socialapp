@@ -7,7 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
-from utils.funcs import unixtime_to_datetime
+from utils.funcs import unixtime_to_datetime, int_or_default
 
 
 @api_view(["GET"])
@@ -27,18 +27,8 @@ def list_posts(request: Request) -> Response:
             timestamp__lt=unixtime_to_datetime(last_post_timestamp)
         )
 
-    posts = posts.order_by('-timestamp')[:limit]
+    posts = posts.select_related('user').order_by('-timestamp')[:limit]
 
     serializer = PostViewSerializer(posts, many=True)
 
     return Response(serializer.data)
-
-
-def int_or_default(value: str, default: int) -> int:
-    try:
-        value = int(value)
-        if value < 0:
-            return default
-        return value
-    except (ValueError, TypeError):
-        return default
